@@ -1,50 +1,55 @@
-const forms = document.querySelector(".forms"),
-links = document.querySelectorAll(".link");
+// Selecting elements
+const forms = document.querySelector(".forms");
+const links = document.querySelectorAll(".link");
 
-
+// Toggle signup form
 links.forEach(link => {
-link.addEventListener("click", e => {
- e.preventDefault(); 
- forms.classList.toggle("show-signup");
-})
-})
-
-
-
-    const loginForm = document.querySelector('.signup form');
-    
-    loginForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const email = document.querySelector('.field input[type="email"]').value;
-        const password = document.querySelector('.field input[type="password"]').value;
-        const inputname=document.querySelector('#name').value;
-        localStorage.setItem(email, password);
-        localStorage.setItem('Username',inputname);
-
-        window.location.href = 'index.html';
+    link.addEventListener("click", e => {
+        e.preventDefault(); 
+        forms.classList.toggle("show-signup");
     });
+});
 
+// Signup functionality
+const signupForm = document.querySelector('.signup form');
 
+signupForm.addEventListener('submit', function (event) {
+    event.preventDefault();
 
+    const email = document.querySelector('.signup .field input[type="email"]').value;
+    const password = document.querySelector('.signup .field input[type="password"]').value;
+    const inputname = document.querySelector('.signup #name').value;
 
-    const signinForm = document.querySelector('.login form');
+    // Check if email already exists in localStorage
+    if (localStorage.getItem(email)) {
+        alert('User already exists. Please log in.');
+        return;
+    }
 
-    signinForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+    // Store email and password in localStorage
+    localStorage.setItem(email, password);
+    localStorage.setItem('Username', inputname);
 
-        const email = document.querySelector('.input').value;
-        const password = document.querySelector('.password').value;
+    // Redirect to main page
+    window.location.href = 'index.html';
+});
 
+// Login functionality
+const signinForm = document.querySelector('.login form');
 
-        const storedPassword = localStorage.getItem(email);
+signinForm.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-    
-        if (storedPassword && password === storedPassword) {
-        
-            window.location.href = 'main.html';
-        } else {
-            
-            alert('Invalid email or password. Please try again.');
-        }
-    });
+    const email = document.querySelector('.login .input').value;
+    const password = document.querySelector('.login .password').value;
+
+    // Retrieve stored password for the entered email
+    const storedPassword = localStorage.getItem(email);
+
+    // Check if email exists and password matches
+    if (storedPassword && password === storedPassword) {
+        window.location.href = 'main.html'; // Redirect to main page
+    } else {
+        alert('Invalid email or password. Please try again.');
+    }
+});
